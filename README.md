@@ -1,31 +1,23 @@
 # Lexora AI — Employee Portal
 
-Internal employee portal for Lexora AI LLC: onboarding approvals, time tracking,
-leave requests, payroll stubs, announcements, tasks, directory, documents,
-a Knowledge Book (FAQ), Employee Wellbeing Q&A, and Growth/CRM (Leads,
-Opportunities, Marketing, Investors).
+Simple employee sign-in for Lexora AI LLC.
 
-## Current status
+## How it works
 
-This repo currently holds the **design handoff** for the portal — a
-high-fidelity static HTML prototype (`index.html`, also mirrored in
-`design_handoff_employee_portal/`) plus the full implementation spec in
-[`design_handoff_employee_portal/README.md`](design_handoff_employee_portal/README.md).
+- **Sign in** (`/`): enter full name + work email, no password. This sets up
+  your account and signs you in.
+- **Profile** (`/profile`): shows your name, email, and when your account was
+  set up.
+- **Sign out** returns you to the sign-in page.
 
-`index.html` is deployed as-is so it can be reviewed live, but it is a
-**prototype only** — role switching, login, and data are all simulated in
-browser memory and reset on refresh. There is no real backend, auth, or
-persistence yet.
+The session is stored in a signed, HTTP-only cookie in your own browser — no
+database and no setup required, so it works the moment it's deployed. Everyone
+sets up their own account by signing in once.
 
-## Auth requirements for the real build
+The full design handoff (14+ screens: time tracking, leave, payroll, approvals,
+CRM, etc.) lives in `design_handoff_employee_portal/` as a reference for the
+larger build later.
 
-Per product decision: signup/login is **name + email only, no password**.
-Employees create an account with full name + email; HR Admin & Project
-Supervisor Mounika Ampelli approves or rejects onboarding before the account
-is active. Once approved, employees can ask Mounika questions (Employee
-Wellbeing Q&A) and submit help/work requests (Tasks).
+## Tech
 
-## Next step
-
-Build the real app (React/TypeScript/Vite/Tailwind, per the spec) with actual
-auth, roles, and persistence, replacing this static prototype.
+Next.js (App Router) · TypeScript · Tailwind CSS. Deploys on Vercel.

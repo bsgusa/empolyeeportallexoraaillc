@@ -1,6 +1,5 @@
 import { createHmac, timingSafeEqual } from "crypto";
 import { cookies } from "next/headers";
-import type { Role } from "./db";
 
 const COOKIE_NAME = "lexora_session";
 const SECRET = process.env.SESSION_SECRET || "lexora-portal-internal-signing-key";
@@ -8,7 +7,7 @@ const SECRET = process.env.SESSION_SECRET || "lexora-portal-internal-signing-key
 export interface SessionPayload {
   email: string;
   fullName: string;
-  role: Role;
+  since: string; // ISO date the account was first set up
 }
 
 function sign(data: string): string {
@@ -24,7 +23,7 @@ export async function createSession(payload: SessionPayload) {
     secure: true,
     sameSite: "lax",
     path: "/",
-    maxAge: 60 * 60 * 24 * 30,
+    maxAge: 60 * 60 * 24 * 365,
   });
 }
 
@@ -50,8 +49,4 @@ export async function getSession(): Promise<SessionPayload | null> {
 export async function clearSession() {
   const store = await cookies();
   store.delete(COOKIE_NAME);
-}
-
-export function isAdmin(role: Role): boolean {
-  return role === "hr_admin" || role === "super_admin";
 }
